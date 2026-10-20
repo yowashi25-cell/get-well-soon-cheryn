@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Well Soon, Cheryn 💙</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #0b132b; /* Warna latar navy gelap estetik */
+            font-family: 'Courier New', Courier, monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Partikel Bintang/Hati Kecil Melayang */
+        .floating-particle {
+            position: absolute;
+            color: #6fffe9;
+            font-size: 14px;
+            pointer-events: none;
+            animation: float 6s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0.8); opacity: 0; }
+            50% { opacity: 0.7; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        /* LAYAR 1: KARTU / AMPLOP AWAL */
+        .envelope-container {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            background: rgba(28, 37, 65, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px dashed #48cae4;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .envelope-container:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope-box {
+            width: 220px;
+            height: 150px;
+            background-color: #1d3557;
+            border: 3px solid #457b9d;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(69, 123, 157, 0.3);
+            margin: 0 auto 15px auto;
+        }
+
+        .envelope-box::before {
+            content: '💊💙';
+            font-size: 32px;
+        }
+
+        .sender-tag {
+            color: #ade8f4;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .sub-text {
+            font-size: 12px;
+            color: #90e0ef;
+            margin-top: 8px;
+        }
+
+        /* LAYAR 2: JENDELA KARTU UCAPAN NAVY */
+        .popup-card {
+            display: none;
+            width: 330px;
+            background: #1c2541;
+            border: 3px solid #48cae4;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .popup-header {
+            background-color: #3a506b;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #ade8f4;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .window-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: #48cae4;
+            border-radius: 50%;
+        }
+
+        .popup-body {
+            padding: 25px 20px;
+            text-align: center;
+            background: #0b132b;
+        }
+
+        .popup-title {
+            color: #ade8f4;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .message-box {
+            color: #caf0f8;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            background: rgba(29, 53, 87, 0.5);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #457b9d;
+        }
+
+        /* Ikon Animasi Lucu */
+        .cute-icon {
+            font-size: 55px;
+            margin: 10px 0;
+        }
+
+        .btn-close {
+            background-color: #48cae4;
+            color: #0b132b;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-close:hover {
+            background-color: #90e0ef;
+            transform: scale(1.05);
+        }
+
+        .footer-note {
+            margin-top: 15px;
+            font-size: 11px;
+            color: #6fffe9;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Partikel Latar Belakang -->
+    <div id="particle-container"></div>
+
+    <!-- LAYAR 1: KARTU / AMPLOP AWAL -->
+    <div class="envelope-container" id="envelopeScreen" onclick="openCard()">
+        <div class="envelope-box"></div>
+        <div class="sender-tag">Special Message for Cheryn 💙</div>
+        <div class="sub-text">Klik untuk membuka pesan ✨</div>
+    </div>
+
+    <!-- LAYAR 2: ISI KARTU UCAPAN -->
+    <div class="popup-card" id="popupCard">
+        <div class="popup-header">
+            <span>GET WELL SOON</span>
+            <div class="window-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+        <div class="popup-body">
+            <div class="popup-title">Halo, Cheryn! 💙</div>
+            
+            <div class="cute-icon">🧸💤🍵</div>
+
+            <div class="message-box">
+                Semoga lekas sembuh ya! Jangan lupa istirahat yang cukup, minum obat tepat waktu, dan banyak minum air putih. Kurangi begadang dulu supaya badannya cepat fit lagi. Semangat pulihnya, Cheryn! ✨
+            </div>
+
+            <button class="btn-close" onclick="resetCard()">Tutup Pesan 💌</button>
+            
+            <div class="footer-note">Get well very soon! 🌟</div>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi Buka Kartu
+        function openCard() {
+            document.getElementById('envelopeScreen').style.display = 'none';
+            document.getElementById('popupCard').style.display = 'block';
+        }
+
+        // Fungsi Tutup Kembali
+        function resetCard() {
+            document.getElementById('popupCard').style.display = 'none';
+            document.getElementById('envelopeScreen').style.display = 'block';
+        }
+
+        // Efek Partikel Melayang di Background Navy
+        const particleContainer = document.getElementById('particle-container');
+        const symbols = ['✨', '💙', '⭐', '💫'];
+        
+        for (let i = 0; i < 25; i++) {
+            const p = document.createElement('div');
+            p.classList.add('floating-particle');
+            p.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            p.style.animationDelay = Math.random() * 5 + 's';
+            particleContainer.appendChild(p);
+        }
+    </script>
+</body>
+</html>
